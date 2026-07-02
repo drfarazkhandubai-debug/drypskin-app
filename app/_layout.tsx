@@ -134,7 +134,7 @@ function RootLayoutNav() {
       {/* <StatusBar style="dark" animated backgroundColor="#fff" /> */}
       <StatusBar
         backgroundColor="#fff"
-        barStyle="light-content"
+        barStyle="dark-content"
       />
       <AuthEventRouter />
       <Stack screenOptions={{ headerShown: false }}>
