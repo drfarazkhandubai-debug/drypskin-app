@@ -96,7 +96,7 @@ export default function ProtocolWheelScreen() {
           Animated.timing(glowAnims[i], {
             toValue: shouldActivate ? 1 : 0,
             duration: 220,
-            useNativeDriver: false,
+            useNativeDriver: true,
           }),
         ]).start();
       });
@@ -707,6 +707,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    bottom: -30,
     gap: 12,
     paddingVertical: 17,
     paddingHorizontal: 24,

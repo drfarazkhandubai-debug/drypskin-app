@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import {
   ActivityIndicator,
   Alert,
-  KeyboardAvoidingView,
   Platform,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
@@ -137,15 +136,13 @@ export default function ProfileScreen() {
   // ── Logged-in view ──────────────────────────────────────────────────────
   if (auth.user) {
     return (
-      <KeyboardAvoidingView
+      <KeyboardAwareScrollView
         style={{ flex: 1, backgroundColor: colors.background }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
+        keyboardShouldPersistTaps="handled"
+        bottomOffset={15}
       >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
-          keyboardShouldPersistTaps="handled"
-        >
           {/* Hero */}
           <View style={[styles.hero, { paddingTop: topPad + 16, backgroundColor: "#1a1a1a" }]}>
             <Pressable onPress={() => router.back()} style={styles.backBtn}>
@@ -297,22 +294,19 @@ export default function ProfileScreen() {
               </Text>
             </View>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
     );
   }
 
   // ── Auth form ───────────────────────────────────────────────────────────
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
+      keyboardShouldPersistTaps="handled"
+      bottomOffset={24}
     >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
-        keyboardShouldPersistTaps="handled"
-      >
         {/* Hero */}
         <View style={[styles.hero, { paddingTop: topPad + 16, backgroundColor: "#1a1a1a" }]}>
           <Pressable onPress={() => router.back()} style={styles.backBtn}>
@@ -559,8 +553,7 @@ export default function ProfileScreen() {
             </Text>
           </View>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
 

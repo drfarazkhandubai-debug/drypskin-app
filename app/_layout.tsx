@@ -23,7 +23,7 @@ import {
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 // import { StatusBar } from 'expo-status-bar'
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -172,7 +172,7 @@ function RootLayoutNav() {
             headerStyle: { backgroundColor: "#F5F0EB" },
           }}
         />
-        
+
         <Stack.Screen name="program/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="peptide/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="protocol/[id]" options={{ headerShown: false }} />
@@ -240,29 +240,29 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <ErrorBoundary>
-        <QueryClientProvider client={queryClient}>
-          <GestureHandlerRootView style={{ flex: 1 }}>
-            <KeyboardProvider>
-              <I18nProvider>
-                <AuthProvider>
-                  <View style={{ flex: 1 }}>
-                    <RootLayoutNav />
-                    {showSplash && (
-                      <LogoSplash
-                        onDone={() => {
-                          setSplashDone(true);
-                          setShowSplash(false);
-                        }}
-                      />
-                    )}
-                  </View>
-                </AuthProvider>
-              </I18nProvider>
-            </KeyboardProvider>
-          </GestureHandlerRootView>
-        </QueryClientProvider>
-      </ErrorBoundary>
+        <ErrorBoundary>
+          <QueryClientProvider client={queryClient}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+              <KeyboardProvider>
+                <I18nProvider>
+                  <AuthProvider>
+                    <View style={{ flex: 1 }}>
+                      <RootLayoutNav />
+                      {showSplash && (
+                        <LogoSplash
+                          onDone={() => {
+                            setSplashDone(true);
+                            setShowSplash(false);
+                          }}
+                        />
+                      )}
+                    </View>
+                  </AuthProvider>
+                </I18nProvider>
+              </KeyboardProvider>
+            </GestureHandlerRootView>
+          </QueryClientProvider>
+        </ErrorBoundary>
     </SafeAreaProvider>
   );
 }

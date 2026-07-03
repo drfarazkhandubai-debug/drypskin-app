@@ -17,9 +17,11 @@ import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
 import { GoldButton } from "@/components/GoldButton";
 
+
 const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
 const GOLD = "#C4956A";
 const GREEN = "#22C55E";
+
 
 interface ServiceDetail {
   id: string;
@@ -76,6 +78,7 @@ export default function ServiceDetail() {
   const [loading, setLoading] = useState(true);
   const [isFav, setIsFav] = useState(false);
   const [favLoading, setFavLoading] = useState(false);
+
 
   // Load service
   useEffect(() => {
@@ -153,6 +156,7 @@ export default function ServiceDetail() {
   const discountPct = hasDiscount ? Math.round((1 - service.price! / service.original_price!) * 100) : 0;
   const savings = hasDiscount ? service.original_price! - service.price! : 0;
 
+
   return (
     <ScrollView
       style={{ backgroundColor: colors.background }}
@@ -177,12 +181,12 @@ export default function ServiceDetail() {
                 {SUBCATEGORY_LABELS[service.subcategory] ?? service.category_name}
               </Text>
             </View>
-            {service.is_popular && (
+            {service?.is_popular && (
               <View style={[styles.catBadge, { backgroundColor: GOLD + "CC", borderColor: GOLD }]}>
                 <Text style={[styles.catBadgeText, { fontFamily: "Lato_700Bold" }]}>POPULAR</Text>
               </View>
             )}
-            {auth.user && (
+            {auth?.user && (
               <Pressable
                 onPress={toggleFav}
                 disabled={favLoading}

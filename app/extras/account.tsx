@@ -1,11 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Alert,
-  Linking,
   Platform,
   Pressable,
   ScrollView,
-  Share,
   StyleSheet,
   Text,
   View,
@@ -16,6 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
 import { useI18n } from "@/context/I18nContext";
+import AlertComponent from "@/components/AlertComponent";
 
 const GOLD = "#C4956A";
 const CHARCOAL = "#1a1a1a";
@@ -67,11 +65,17 @@ const SECTIONS: { titleKey?: string; items: MenuItem[] }[] = [
 ];
 
 export default function AccountScreen() {
+
+  const [showAlert, setShowAlert] = useState(false);
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const auth = useAuth();
   const { t, isRTL } = useI18n();
+
+  const handleAlert = () => {
+    setShowAlert(prev => !prev);
+  }
 
   const topPad = Platform.OS === "web" ? 67 : insets.top;
   const bottomPad = Platform.OS === "web" ? 34 : insets.bottom;
@@ -83,10 +87,7 @@ export default function AccountScreen() {
     if (Platform.OS === "web") {
       auth.logout();
     } else {
-      Alert.alert(t("sign_out"), t("sign_out_confirm"), [
-        { text: t("cancel"), style: "cancel" },
-        { text: t("sign_out"), style: "destructive", onPress: () => auth.logout() },
-      ]);
+      handleAlert()
     }
   };
 
@@ -221,6 +222,17 @@ export default function AccountScreen() {
               {t("sign_out")}
             </Text>
           </Pressable>
+
+          <AlertComponent
+            visible={showAlert}
+            icon={<Feather name="log-out" size={35} color="#FF3B30" />}
+            message={t("Are you sure you want to sign out?")}
+            onConfirm={() => {
+              auth.logout();
+              handleAlert();
+            }}
+            onCancel={handleAlert}
+          />
 
           <View style={[styles.footerNote, { backgroundColor: colors.secondary, borderColor: colors.border }]}>
             <Feather name="shield" size={12} color={colors.sage} />
