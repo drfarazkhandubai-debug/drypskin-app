@@ -134,7 +134,7 @@ function RootLayoutNav() {
       {/* <StatusBar style="dark" animated backgroundColor="#fff" /> */}
       <StatusBar
         backgroundColor="#fff"
-        barStyle="dark-content"
+        barStyle="light-content"
       />
       <AuthEventRouter />
       <Stack screenOptions={{ headerShown: false }}>
@@ -144,23 +144,23 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="service/[id]"
-          options={{
-            headerShown: true,
-            headerTransparent: true,
-            headerTitle: "",
-            headerTintColor: "#8B9B8A",
-            headerBackTitle: "Back",
-          }}
+          // options={{
+          //   headerShown: true,
+          //   headerTransparent: true,
+          //   headerTitle: "",
+          //   headerTintColor: "#8B9B8A",
+          //   headerBackTitle: "Back",
+          // }}
         />
         <Stack.Screen
           name="offers"
-          options={{
-            headerShown: true,
-            headerTitle: "Special Offers",
-            headerTintColor: "#8B9B8A",
-            headerBackTitle: "Back",
-            headerStyle: { backgroundColor: "#F5F0EB" },
-          }}
+          // options={{
+          //   headerShown: true,
+          //   headerTitle: "Special Offers",
+          //   headerTintColor: "#8B9B8A",
+          //   headerBackTitle: "Back",
+          //   headerStyle: { backgroundColor: "#F5F0EB" },
+          // }}
         />
         <Stack.Screen
           name="programs"

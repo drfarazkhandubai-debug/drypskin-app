@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
-  ActivityIndicator, Alert, KeyboardAvoidingView, Platform,
-  Pressable, ScrollView, StyleSheet, Text, TextInput, View,
+  ActivityIndicator, Alert, Platform,
+  Pressable, StyleSheet, Text, TextInput, View,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
@@ -105,8 +106,13 @@ export default function AddressesScreen() {
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.background }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 40 + bottomPad }} showsVerticalScrollIndicator={false}>
+    <KeyboardAwareScrollView
+      style={{ flex: 1, backgroundColor: colors.background }}
+      contentContainerStyle={{ paddingBottom: 40 + bottomPad }}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+      bottomOffset={20}
+    >
         <View style={[styles.hero, { paddingTop: topPad + 16, backgroundColor: "#1a1a1a" }]}>
           <Pressable onPress={() => { if (showForm) { setShowForm(false); resetForm(); } else router.back(); }} style={styles.backBtn}>
             <Feather name="chevron-left" size={22} color="rgba(255,255,255,0.7)" />
@@ -215,8 +221,7 @@ export default function AddressesScreen() {
             </>
           )}
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
 

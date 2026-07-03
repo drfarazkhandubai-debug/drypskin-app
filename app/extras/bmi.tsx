@@ -15,6 +15,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+
 
 interface BmiCategory {
   label: string;
@@ -146,14 +148,11 @@ export default function BmiCalculatorScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-    >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
-        keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
+      keyboardShouldPersistTaps="handled"
       >
         {/* Hero */}
         <View style={[styles.hero, { paddingTop: topPad + 16, backgroundColor: "#5C7A6B" }]}>
@@ -328,8 +327,7 @@ export default function BmiCalculatorScreen() {
             ))}
           </View>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
   );
 }
 

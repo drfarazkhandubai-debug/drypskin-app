@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
-  ActivityIndicator, Clipboard, KeyboardAvoidingView, Linking,
-  Platform, Pressable, ScrollView, Share, StyleSheet, Text, View,
+  ActivityIndicator, Clipboard, Linking,
+  Platform, Pressable, Share, StyleSheet, Text, View,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
@@ -72,8 +73,13 @@ export default function ReferralScreen() {
   };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.background }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 40 + bottomPad }} showsVerticalScrollIndicator={false}>
+    <KeyboardAwareScrollView
+      style={{ flex: 1, backgroundColor: colors.background }}
+      contentContainerStyle={{ paddingBottom: 40 + bottomPad }}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+      bottomOffset={20}
+    >
         <View style={[styles.hero, { paddingTop: topPad + 16, backgroundColor: "#1a1a1a" }]}>
           <Pressable onPress={() => router.back()} style={styles.backBtn}>
             <Feather name="chevron-left" size={22} color="rgba(255,255,255,0.7)" />
@@ -176,8 +182,7 @@ export default function ReferralScreen() {
             )}
           </View>
         )}
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
 

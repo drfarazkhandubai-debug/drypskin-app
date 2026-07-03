@@ -16,12 +16,14 @@ import { Feather } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
 import { sendPasswordReset } from "@/services/authService";
+import AlertComponent from "@/components/AlertComponent";
 
 const GOLD = "#C4956A";
 
 type Mode = "login" | "register";
 
 export default function ProfileScreen() {
+  
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -48,11 +50,17 @@ export default function ProfileScreen() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [referralCode, setReferralCode] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
   // Edit state
   const [editName, setEditName] = useState(auth.user?.name ?? "");
   const [editPhone, setEditPhone] = useState(auth.user?.phone ?? "");
   const [editAddress, setEditAddress] = useState(auth.user?.address ?? "");
+
+
+  const handleShowAlert = () => {
+    setShowAlert(prev => !prev);
+  }
 
   const initials = (auth.user?.name || auth.user?.email || "?")
     .split(" ")
@@ -115,6 +123,7 @@ export default function ProfileScreen() {
 
   const handleLogout = async () => {
     await auth.logout();
+    handleLogout()
   };
 
   // ── Auth loading guard ───────────────────────────────────────────────────
@@ -278,7 +287,7 @@ export default function ProfileScreen() {
 
             {/* Logout */}
             <Pressable
-              onPress={handleLogout}
+              onPress={handleShowAlert}
               style={({ pressed }) => [styles.logoutBtn, { borderColor: colors.border, opacity: pressed ? 0.8 : 1 }]}
             >
               <Feather name="log-out" size={16} color={colors.destructive} />
@@ -286,6 +295,16 @@ export default function ProfileScreen() {
                 Sign Out
               </Text>
             </Pressable>
+
+            <AlertComponent
+              visible={showAlert}
+              onConfirm={handleLogout}
+              icon={<Feather name="log-out" size={30} color={colors.destructive} />}
+              onCancel={handleShowAlert}
+              message="Are you sure you want to sign out?"
+              confirmStyles={{ backgroundColor: colors.destructive }}
+              label="Confirm"
+            />
 
             <View style={[styles.note, { backgroundColor: colors.secondary, borderColor: colors.border }]}>
               <Feather name="shield" size={13} color={colors.sage} />

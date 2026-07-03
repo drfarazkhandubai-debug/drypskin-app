@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Disclaimer } from "@/components/Disclaimer";
 import {
   Keyboard,
-  KeyboardAvoidingView,
   Linking,
   Platform,
   Pressable,
@@ -16,6 +15,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+
 
 interface HealthScore {
   hydration: number;
@@ -189,11 +190,8 @@ export default function HealthTrackerScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: colors.background }}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-    >
-      <ScrollView
+    <KeyboardAwareScrollView
+        style={{ flex: 1, backgroundColor: colors.background }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
         keyboardShouldPersistTaps="handled"
@@ -474,8 +472,7 @@ export default function HealthTrackerScreen() {
 
           <Disclaimer />
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
 

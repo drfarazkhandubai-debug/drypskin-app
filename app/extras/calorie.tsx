@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Keyboard,
-  KeyboardAvoidingView,
   Platform,
   Pressable,
   ScrollView,
@@ -10,6 +9,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
@@ -94,15 +94,13 @@ export default function CalorieDiaryScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
+      keyboardShouldPersistTaps="handled"
+      bottomOffset={20}
     >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
-        keyboardShouldPersistTaps="handled"
-      >
         {/* Hero */}
         <View style={[styles.hero, { paddingTop: topPad + 16, backgroundColor: "#C4956A" }]}>
           <Pressable onPress={() => router.back()} style={styles.backBtn}>
@@ -361,8 +359,7 @@ export default function CalorieDiaryScreen() {
             </View>
           )}
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
 

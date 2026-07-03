@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
-  ActivityIndicator, Alert, KeyboardAvoidingView, Platform,
-  Pressable, ScrollView, StyleSheet, Text, TextInput, View,
+  ActivityIndicator, Alert, Platform,
+  Pressable, StyleSheet, Text, TextInput, View,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Feather, FontAwesome } from "@expo/vector-icons";
@@ -213,14 +214,13 @@ export default function PaymentsScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      contentContainerStyle={{ paddingBottom: 40 + bottomPad }}
+      showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
+      bottomOffset={20}
     >
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: 40 + bottomPad }}
-        showsVerticalScrollIndicator={false}
-      >
         {/* ── Hero ─────────────────────────────────────────────────────── */}
         <View style={[styles.hero, { paddingTop: topPad + 16, backgroundColor: "#1a1a1a" }]}>
           <Pressable
@@ -563,8 +563,7 @@ export default function PaymentsScreen() {
             </View>
           </View>
         )}
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
 

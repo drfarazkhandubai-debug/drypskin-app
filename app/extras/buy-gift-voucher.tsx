@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Alert,
-  KeyboardAvoidingView,
   Modal,
   Platform,
   Pressable,
@@ -12,6 +11,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import * as Clipboard from "expo-clipboard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -280,14 +280,11 @@ export default function BuyGiftVoucherScreen() {
         onDone={handleDone}
       />
 
-      <KeyboardAvoidingView
-        style={{ flex: 1, backgroundColor: colors.background }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <ScrollView
+      <KeyboardAwareScrollView
           contentContainerStyle={{ paddingBottom: 40 + bottomPad }}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
+          bottomOffset={20}
         >
           {/* ── Header ──────────────────────────────────────────────────── */}
           <View style={[styles.hero, { paddingTop: topPad + 16 }]}>
@@ -477,8 +474,7 @@ export default function BuyGiftVoucherScreen() {
               </Text>
             </View>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
     </>
   );
 }

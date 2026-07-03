@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Pressable,
-  ScrollView, StyleSheet, Text, TextInput, View,
+  ActivityIndicator, Alert, Platform, Pressable,
+  StyleSheet, Text, TextInput, View,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
@@ -92,7 +93,7 @@ export default function BodyMetricsScreen() {
   const weightTrend = latest?.weight_kg && prev?.weight_kg ? latest.weight_kg - prev.weight_kg : null;
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1, backgroundColor: colors.background }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
       <View style={[styles.header, { paddingTop: topPad + 16, backgroundColor: ACCENT }]}>
         <Pressable onPress={() => router.back()} style={styles.backBtn}>
           <Feather name="chevron-left" size={22} color="rgba(255,255,255,0.7)" />
@@ -121,7 +122,12 @@ export default function BodyMetricsScreen() {
           </Pressable>
         </View>
       ) : (
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ padding: 20, paddingBottom: 60 + bottomPad, gap: 16 }} keyboardShouldPersistTaps="handled">
+        <KeyboardAwareScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ padding: 20, paddingBottom: 60 + bottomPad, gap: 16 }}
+          keyboardShouldPersistTaps="handled"
+          bottomOffset={20}
+        >
           {/* Latest snapshot */}
           {latest && (
             <View style={[styles.card, { backgroundColor: colors.card, borderColor: colors.border }]}>
@@ -237,9 +243,9 @@ export default function BodyMetricsScreen() {
               </Text>
             </View>
           ) : null}
-        </ScrollView>
+        </KeyboardAwareScrollView>
       )}
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

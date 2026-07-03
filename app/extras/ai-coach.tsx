@@ -122,8 +122,7 @@ export default function AiCoachScreen() {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: colors.background }}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 0}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       {/* Header */}
       <View style={[styles.header, { paddingTop: topPad + 16, backgroundColor: "#1a1a1a" }]}>

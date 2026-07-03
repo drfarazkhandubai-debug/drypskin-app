@@ -1,4 +1,4 @@
-import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Modal, Pressable, StyleProp, StyleSheet, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
     onCancel?: () => void;
     icon?: React.ReactNode;
     label?: string;
-    confirmStyles?: {};
+    confirmStyles?: ViewStyle;
 }
 
 export default function AlertComponent({ message, onConfirm, onCancel, visible, icon, label, confirmStyles }: Props) {
@@ -28,7 +28,7 @@ export default function AlertComponent({ message, onConfirm, onCancel, visible, 
                         <Text style={styles.buttonText}>Cancel</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.confirmButton, confirmStyles]} onPress={onConfirm}>
-                        <Text style={styles.buttonText}>{label || 'Confirm'}</Text>
+                        <Text style={[styles.buttonText, { color: confirmStyles ? "white" : "black" }]}>{label || 'Confirm'}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

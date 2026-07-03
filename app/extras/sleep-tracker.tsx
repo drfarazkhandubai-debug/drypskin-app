@@ -14,6 +14,7 @@ import { useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
+import AlertComponent from "@/components/AlertComponent";
 
 const STORAGE_KEY = "drypskin_sleep_logs";
 const GOLD = "#C4956A";
@@ -66,6 +67,7 @@ export default function SleepTrackerScreen() {
   const bottomPad = Platform.OS === "web" ? 34 : insets.bottom;
 
   const [logs, setLogs] = useState<SleepLog[]>([]);
+  const [alertVisible, setAlertVisible] = useState<null | string>(null);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ date: todayStr(), bedtime: "22:30", waketime: "06:30", quality: 3, notes: "" });
 
@@ -94,11 +96,17 @@ export default function SleepTrackerScreen() {
     setForm({ date: todayStr(), bedtime: "22:30", waketime: "06:30", quality: 3, notes: "" });
   };
 
-  const del = (id: string) => {
-    Alert.alert("Delete entry?", "", [
-      { text: "Cancel" },
-      { text: "Delete", style: "destructive", onPress: () => save(logs.filter(l => l.id !== id)) },
-    ]);
+
+  const del = (id?: string) => {
+
+    if (Platform.OS === "web") {
+      Alert.alert("Delete entry?", "", [
+        { text: "Cancel" },
+        { text: "Delete", style: "destructive", onPress: () => save(logs.filter(l => l.id !== id)) },
+      ]);
+    } else {
+      setAlertVisible(id || null)
+    }
   };
 
   const recent7 = logs.slice(0, 7);
@@ -125,6 +133,7 @@ export default function SleepTrackerScreen() {
           </Pressable>
         </View>
       </View>
+
 
       <View style={{ padding: 20, gap: 20 }}>
 
@@ -280,6 +289,20 @@ export default function SleepTrackerScreen() {
           </Text>
         </View>
       </View>
+
+      <AlertComponent 
+        visible={Boolean(alertVisible)}
+        icon={<Feather name="trash-2" size={30} color={'red'} />}
+        onCancel={() => setAlertVisible(null)}
+        onConfirm={() => {
+          save(logs.filter(l => l.id !== alertVisible as string))
+          setAlertVisible(null)
+        }}
+        message="Are you sure you want to delete this entry?"
+        confirmStyles={{ backgroundColor: 'crimson' }}
+        label="Delete"
+      />
+      
     </ScrollView>
   );
 }
