@@ -16,7 +16,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
   Image,
-  Platform,
+  Platform, 
   StyleSheet,
   View,
   StatusBar
@@ -133,8 +133,9 @@ function RootLayoutNav() {
     <>
       {/* <StatusBar style="dark" animated backgroundColor="#fff" /> */}
       <StatusBar
-        backgroundColor="#fff"
-        barStyle="light-content"
+        backgroundColor="#1d1d1dff"
+        animated
+        barStyle="dark-content"
       />
       <AuthEventRouter />
       <Stack screenOptions={{ headerShown: false }}>

@@ -123,7 +123,7 @@ export default function ProfileScreen() {
 
   const handleLogout = async () => {
     await auth.logout();
-    handleLogout()
+    handleShowAlert();
   };
 
   // ── Auth loading guard ───────────────────────────────────────────────────
