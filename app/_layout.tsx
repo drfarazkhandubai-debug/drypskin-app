@@ -46,6 +46,7 @@ function LogoSplash({ onDone }: { onDone: () => void }) {
   const opacity = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(0.88)).current;
 
+
   useEffect(() => {
     Animated.sequence([
       Animated.parallel([
