@@ -15,7 +15,7 @@ const CONTACTS = [
   {
     icon: "message-circle",
     label: "WhatsApp",
-    value: "+971 56 607 8532",
+    value: "+971 58 607 8532",
     subtitle: "Fastest response — 7 days a week",
     color: "#25D366",
     action: () => Linking.openURL("https://wa.me/971586078532"),
@@ -23,7 +23,7 @@ const CONTACTS = [
   {
     icon: "phone",
     label: "Call Us",
-    value: "+971 56 607 8532",
+    value: "+971 58 607 8532",
     subtitle: "Available 10AM – 10PM daily",
     color: "#4A7AAA",
     action: () => Linking.openURL("tel:+971586078532"),
@@ -31,10 +31,10 @@ const CONTACTS = [
   {
     icon: "mail",
     label: "Email",
-    value: "hello@drypskin.ae",
+    value: "info@drypskin.com",
     subtitle: "We reply within 24 hours",
     color: GOLD,
-    action: () => Linking.openURL("mailto:hello@drypskin.ae"),
+    action: () => Linking.openURL("mailto:info@drypskin.com"),
   },
   {
     icon: "instagram",
@@ -174,3 +174,4 @@ const styles = StyleSheet.create({
   mapsBtn: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, margin: 16, marginTop: 8, paddingVertical: 14, borderRadius: 50 },
   bookCTA: { flexDirection: "row", alignItems: "center", gap: 12, padding: 18, borderRadius: 18 },
 });
+

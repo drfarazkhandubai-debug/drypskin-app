@@ -10,7 +10,7 @@ import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
 import { useI18n, LANGUAGES, type LangCode } from "@/context/I18nContext";
 
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 
 export default function SettingsScreen() {
   const colors = useColors();
@@ -102,7 +102,7 @@ export default function SettingsScreen() {
             {[
               { icon: "shield", label: "Privacy Policy", onPress: () => Linking.openURL("https://wa.me/971586078532") },
               { icon: "file-text", label: "Terms of Service", onPress: () => Linking.openURL("https://wa.me/971586078532") },
-              { icon: "bell", label: t("push_notifications"), onPress: () => {} },
+              { icon: "bell", label: t("push_notifications"), onPress: () => { } },
             ].map((item, i) => (
               <Pressable key={i} onPress={item.onPress}
                 style={({ pressed }) => [styles.menuItem, i > 0 && { borderTopWidth: 1, borderTopColor: colors.border }, { opacity: pressed ? 0.75 : 1 }]}>
@@ -243,3 +243,4 @@ const styles = StyleSheet.create({
   cancelBtn: { flex: 1, alignItems: "center", justifyContent: "center", paddingVertical: 13, borderRadius: 50, borderWidth: 1.5 },
   confirmDeleteBtn: { flex: 2, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, paddingVertical: 13, borderRadius: 50 },
 });
+

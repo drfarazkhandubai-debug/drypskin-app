@@ -20,24 +20,24 @@ import { setConsultPrefill } from "@/services/consultPrefill";
 
 const GOLD = "#C4956A";
 const DARK = "#1a1a1a";
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const SYMPTOMS = [
-  { id: "fatigue",        label: "Fatigue",          icon: "battery",    color: "#4A7AAA" },
-  { id: "low-energy",     label: "Low Energy",        icon: "zap",        color: "#8A5A7A" },
-  { id: "brain-fog",      label: "Brain Fog",         icon: "cloud",      color: "#4A5B8A" },
-  { id: "skin-dullness",  label: "Skin Dullness",     icon: "sun",        color: "#C4956A" },
-  { id: "stress-anxiety", label: "Stress / Anxiety",  icon: "activity",   color: "#AA4A4A" },
-  { id: "poor-sleep",     label: "Poor Sleep",        icon: "moon",       color: "#5C7A6B" },
-  { id: "dehydration",    label: "Dehydration",       icon: "droplet",    color: "#4A8A8A" },
+  { id: "fatigue", label: "Fatigue", icon: "battery", color: "#4A7AAA" },
+  { id: "low-energy", label: "Low Energy", icon: "zap", color: "#8A5A7A" },
+  { id: "brain-fog", label: "Brain Fog", icon: "cloud", color: "#4A5B8A" },
+  { id: "skin-dullness", label: "Skin Dullness", icon: "sun", color: "#C4956A" },
+  { id: "stress-anxiety", label: "Stress / Anxiety", icon: "activity", color: "#AA4A4A" },
+  { id: "poor-sleep", label: "Poor Sleep", icon: "moon", color: "#5C7A6B" },
+  { id: "dehydration", label: "Dehydration", icon: "droplet", color: "#4A8A8A" },
 ];
 
 const DURATIONS = [
-  { id: "today",    label: "Today",     sub: "Started today"        },
-  { id: "2-3 days", label: "2–3 Days",  sub: "A few days"           },
-  { id: "1 week+",  label: "1 Week+",   sub: "More than a week"     },
-  { id: "chronic",  label: "Chronic",   sub: "Ongoing / recurring"  },
+  { id: "today", label: "Today", sub: "Started today" },
+  { id: "2-3 days", label: "2–3 Days", sub: "A few days" },
+  { id: "1 week+", label: "1 Week+", sub: "More than a week" },
+  { id: "chronic", label: "Chronic", sub: "Ongoing / recurring" },
 ];
 
 const SEVERITY_LABEL: Record<number, string> = {
@@ -836,8 +836,8 @@ export default function SymptomCheckerScreen() {
                         {result.consult_type === "specialist"
                           ? `Consult ${result.specialty ?? "Specialist"}`
                           : result.consult_type === "nurse"
-                          ? "Book Nurse Consultation"
-                          : "Consult a GP"}
+                            ? "Book Nurse Consultation"
+                            : "Consult a GP"}
                       </Text>
                     </Pressable>
                   )}
@@ -1046,3 +1046,4 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
 });
+

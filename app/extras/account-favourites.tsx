@@ -10,7 +10,7 @@ import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
 import { useI18n } from "@/context/I18nContext";
 
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 
 interface Favourite {
   id: number;

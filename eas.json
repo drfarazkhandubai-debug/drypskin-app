@@ -20,7 +20,7 @@
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_DOMAIN": "drypskin-clinic-app.replit.app"
+        "EXPO_PUBLIC_API_URL": "drypskin-clinic-app.replit.app"
       },
       "ios": {
         "resourceClass": "m1-medium"

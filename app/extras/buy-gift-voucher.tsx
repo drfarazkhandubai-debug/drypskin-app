@@ -22,7 +22,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const GOLD = "#C4956A";
 const CHARCOAL = "#1a1a1a";
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 const PRESET_AMOUNTS = [100, 250, 500, 1000];
 
 function formatCardNumber(val: string) {

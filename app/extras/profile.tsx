@@ -1,29 +1,27 @@
 import React, { useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
-import { sendPasswordReset } from "@/services/authService";
-import AlertComponent from "@/components/AlertComponent";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 
 const GOLD = "#C4956A";
 
 type Mode = "login" | "register";
 
 export default function ProfileScreen() {
-  
+
   const colors = useColors();
   const insets = useSafeAreaInsets();
   const router = useRouter();
@@ -50,17 +48,11 @@ export default function ProfileScreen() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [referralCode, setReferralCode] = useState("");
-  const [showAlert, setShowAlert] = useState(false);
 
   // Edit state
   const [editName, setEditName] = useState(auth.user?.name ?? "");
   const [editPhone, setEditPhone] = useState(auth.user?.phone ?? "");
   const [editAddress, setEditAddress] = useState(auth.user?.address ?? "");
-
-
-  const handleShowAlert = () => {
-    setShowAlert(prev => !prev);
-  }
 
   const initials = (auth.user?.name || auth.user?.email || "?")
     .split(" ")
@@ -112,7 +104,7 @@ export default function ProfileScreen() {
     setResetLoading(true);
     setResetMsg("");
     try {
-      await sendPasswordReset(resetEmail.trim().toLowerCase());
+      await auth.forgot(resetEmail.trim().toLowerCase());
       setResetStep(2);
       setResetMsg("");
     } catch (err: any) {
@@ -123,7 +115,6 @@ export default function ProfileScreen() {
 
   const handleLogout = async () => {
     await auth.logout();
-    handleShowAlert();
   };
 
   // ── Auth loading guard ───────────────────────────────────────────────────
@@ -147,11 +138,12 @@ export default function ProfileScreen() {
     return (
       <KeyboardAwareScrollView
         style={{ flex: 1, backgroundColor: colors.background }}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
-        keyboardShouldPersistTaps="handled"
-        bottomOffset={15}
       >
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
+          keyboardShouldPersistTaps="handled"
+        >
           {/* Hero */}
           <View style={[styles.hero, { paddingTop: topPad + 16, backgroundColor: "#1a1a1a" }]}>
             <Pressable onPress={() => router.back()} style={styles.backBtn}>
@@ -287,7 +279,7 @@ export default function ProfileScreen() {
 
             {/* Logout */}
             <Pressable
-              onPress={handleShowAlert}
+              onPress={handleLogout}
               style={({ pressed }) => [styles.logoutBtn, { borderColor: colors.border, opacity: pressed ? 0.8 : 1 }]}
             >
               <Feather name="log-out" size={16} color={colors.destructive} />
@@ -296,16 +288,6 @@ export default function ProfileScreen() {
               </Text>
             </Pressable>
 
-            <AlertComponent
-              visible={showAlert}
-              onConfirm={handleLogout}
-              icon={<Feather name="log-out" size={30} color={colors.destructive} />}
-              onCancel={handleShowAlert}
-              message="Are you sure you want to sign out?"
-              confirmStyles={{ backgroundColor: colors.destructive }}
-              label="Confirm"
-            />
-
             <View style={[styles.note, { backgroundColor: colors.secondary, borderColor: colors.border }]}>
               <Feather name="shield" size={13} color={colors.sage} />
               <Text style={[styles.noteText, { color: colors.warmGray, fontFamily: "Lato_300Light" }]}>
@@ -313,7 +295,8 @@ export default function ProfileScreen() {
               </Text>
             </View>
           </View>
-        </KeyboardAwareScrollView>
+        </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 
@@ -321,11 +304,12 @@ export default function ProfileScreen() {
   return (
     <KeyboardAwareScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
-      keyboardShouldPersistTaps="handled"
-      bottomOffset={24}
     >
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: 60 + bottomPad }}
+        keyboardShouldPersistTaps="handled"
+      >
         {/* Hero */}
         <View style={[styles.hero, { paddingTop: topPad + 16, backgroundColor: "#1a1a1a" }]}>
           <Pressable onPress={() => router.back()} style={styles.backBtn}>
@@ -572,6 +556,7 @@ export default function ProfileScreen() {
             </Text>
           </View>
         </View>
+      </ScrollView>
     </KeyboardAwareScrollView>
   );
 }
@@ -620,3 +605,4 @@ const styles = StyleSheet.create({
   noteText: { flex: 1, fontSize: 12, lineHeight: 18 },
   errorBox: { flexDirection: "row", alignItems: "flex-start", gap: 10, padding: 12, borderRadius: 12, borderWidth: 1 },
 });
+

@@ -10,7 +10,7 @@ import { Feather } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
 
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 const ACCENT = "#5C7A6B";
 
 function getBmiCategory(bmi: number) {

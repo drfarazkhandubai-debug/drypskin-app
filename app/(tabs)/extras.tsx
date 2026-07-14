@@ -18,7 +18,7 @@ import { useI18n } from "@/context/I18nContext";
 import { runHealthPipeline, riskColor, type HealthPrediction, type PersonalizedMessage } from "@/lib/healthPipeline";
 import { generateWellnessInsight, type WellnessInsight } from "@/lib/intelligence";
 
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 
 // ─── Classic wellness tools ───────────────────────────────────────────────────
 const classicTools = [
@@ -42,14 +42,14 @@ const myHealthTools = [
 ];
 
 const trackerTools = [
-  { id: "body-metrics",   title: "Body Metrics",    icon: "trending-up",  color: "#5C7A6B", route: "/extras/body-metrics",   desc: "Weight, body fat & measurements" },
-  { id: "lab-results",    title: "Lab Results",     icon: "thermometer",  color: "#4A7AAA", route: "/extras/lab-results",    desc: "18 biomarkers with optimal ranges" },
-  { id: "supplements",    title: "Supplement Log",  icon: "check-square", color: "#8A5A7A", route: "/extras/supplements",    desc: "Peptides & supplement daily tracker" },
-  { id: "fasting",        title: "Fasting Timer",   icon: "clock",        color: "#4A5B8A", route: "/extras/fasting",        desc: "16:8, OMAD & IF protocols" },
-  { id: "sleep-tracker",  title: "Sleep Tracker",   icon: "moon",         color: "#1E3A5F", route: "/extras/sleep-tracker",  desc: "Log & chart nightly sleep duration" },
-  { id: "sleep",          title: "Sleep Optimiser", icon: "sunrise",      color: "#4A5B8A", route: "/extras/sleep",          desc: "Chronotype analysis & recommendations" },
-  { id: "caffeine",       title: "Caffeine Tracker", icon: "coffee",      color: "#8B6344", route: "/extras/caffeine",       desc: "Daily intake · late-caffeine alerts" },
-  { id: "appointments",   title: "Appointments",    icon: "calendar",     color: "#8B9B8A", route: "/extras/appointments",   desc: "Treatment history & ratings" },
+  { id: "body-metrics", title: "Body Metrics", icon: "trending-up", color: "#5C7A6B", route: "/extras/body-metrics", desc: "Weight, body fat & measurements" },
+  { id: "lab-results", title: "Lab Results", icon: "thermometer", color: "#4A7AAA", route: "/extras/lab-results", desc: "18 biomarkers with optimal ranges" },
+  { id: "supplements", title: "Supplement Log", icon: "check-square", color: "#8A5A7A", route: "/extras/supplements", desc: "Peptides & supplement daily tracker" },
+  { id: "fasting", title: "Fasting Timer", icon: "clock", color: "#4A5B8A", route: "/extras/fasting", desc: "16:8, OMAD & IF protocols" },
+  { id: "sleep-tracker", title: "Sleep Tracker", icon: "moon", color: "#1E3A5F", route: "/extras/sleep-tracker", desc: "Log & chart nightly sleep duration" },
+  { id: "sleep", title: "Sleep Optimiser", icon: "sunrise", color: "#4A5B8A", route: "/extras/sleep", desc: "Chronotype analysis & recommendations" },
+  { id: "caffeine", title: "Caffeine Tracker", icon: "coffee", color: "#8B6344", route: "/extras/caffeine", desc: "Daily intake · late-caffeine alerts" },
+  { id: "appointments", title: "Appointments", icon: "calendar", color: "#8B9B8A", route: "/extras/appointments", desc: "Treatment history & ratings" },
 ];
 
 const clinicTools = [
@@ -81,7 +81,7 @@ export default function ExtrasScreen() {
 
   // ── Animation values ──────────────────────────────────────────────────────
   const insightFade = useRef(new Animated.Value(0)).current;
-  const ctaScale    = useRef(new Animated.Value(1)).current;
+  const ctaScale = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     let active = true;
@@ -264,7 +264,7 @@ export default function ExtrasScreen() {
                 onPress={() => {
                   Animated.sequence([
                     Animated.timing(ctaScale, { toValue: 0.96, duration: 80, useNativeDriver: false }),
-                    Animated.timing(ctaScale, { toValue: 1,    duration: 80, useNativeDriver: false }),
+                    Animated.timing(ctaScale, { toValue: 1, duration: 80, useNativeDriver: false }),
                   ]).start(() => router.push((insight?.ctaRoute ?? "/extras/scan") as any));
                 }}
                 style={[styles.insightCta, { backgroundColor: "#C4956A" }]}
@@ -341,11 +341,11 @@ export default function ExtrasScreen() {
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 12 }}>
             {[
               { label: "Apple Watch", color: "#FF3B30" },
-              { label: "Oura Ring",   color: "#7C3AED" },
-              { label: "Google Fit",  color: "#0D9488" },
-              { label: "WHOOP",       color: "#EA580C" },
-              { label: "Garmin",      color: "#2563EB" },
-              { label: "Samsung",     color: "#1428A0" },
+              { label: "Oura Ring", color: "#7C3AED" },
+              { label: "Google Fit", color: "#0D9488" },
+              { label: "WHOOP", color: "#EA580C" },
+              { label: "Garmin", color: "#2563EB" },
+              { label: "Samsung", color: "#1428A0" },
             ].map(d => (
               <View key={d.label} style={[styles.devicePill, { backgroundColor: d.color + "20", borderColor: d.color + "40" }]}>
                 <View style={[styles.deviceDot, { backgroundColor: d.color }]} />
@@ -519,3 +519,4 @@ const styles = StyleSheet.create({
   deviceDot: { width: 6, height: 6, borderRadius: 3 },
   deviceArrow: { width: 36, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center", flexShrink: 0 },
 });
+

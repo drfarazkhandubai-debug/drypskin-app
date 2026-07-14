@@ -8,7 +8,7 @@ import { Feather } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
 
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 
 const PEPTIDE_PROTOCOLS = [
   { name: "BPC-157", dose: "500 mcg", category: "peptide", icon: "zap", benefit: "Gut healing & recovery" },

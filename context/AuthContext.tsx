@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 const TOKEN_KEY = "auth_token";
 
 // Bump STORAGE_VERSION to trigger a one-time full AsyncStorage wipe on every
@@ -45,6 +45,8 @@ interface AuthContextType extends AuthState {
   logout: () => Promise<void>;
   updateProfile: (data: Partial<UserProfile>) => Promise<{ error?: string }>;
   saveHealthScan: (scanData: ScanData) => Promise<void>;
+  forgot: (email: string) => Promise<{ error?: string }>;
+  resetPassword: (email: string, newPassword: string, code: string) => Promise<{ error?: string }>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -58,7 +60,7 @@ async function fetchMe(token: string): Promise<UserProfile | null> {
       const data = await res.json();
       return data.user as UserProfile;
     }
-  } catch {}
+  } catch { }
   return null;
 }
 
@@ -72,8 +74,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // recovery session that causes the reset-password screen on startup.
       const version = await AsyncStorage.getItem(STORAGE_VERSION_KEY).catch(() => null);
       if (version !== STORAGE_VERSION) {
-        await AsyncStorage.clear().catch(() => {});
-        await AsyncStorage.setItem(STORAGE_VERSION_KEY, STORAGE_VERSION).catch(() => {});
+        await AsyncStorage.clear().catch(() => { });
+        await AsyncStorage.setItem(STORAGE_VERSION_KEY, STORAGE_VERSION).catch(() => { });
       }
 
       const stored = await AsyncStorage.getItem(TOKEN_KEY).catch(() => null);
@@ -82,7 +84,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (user) {
           setState({ user, token: stored, loading: false });
         } else {
-          await AsyncStorage.removeItem(TOKEN_KEY).catch(() => {});
+          await AsyncStorage.removeItem(TOKEN_KEY).catch(() => { });
           setState({ user: null, token: null, loading: false });
         }
       } else {
@@ -102,6 +104,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!res.ok) return { error: data.error ?? "Login failed." };
       await AsyncStorage.setItem(TOKEN_KEY, data.token);
       setState({ user: data.user, token: data.token, loading: false });
+      return {};
+    } catch {
+      return { error: "Connection error. Please try again." };
+    }
+  }, []);
+
+  const forgot = useCallback(async (email: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/users/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      console.log({ data });
+
       return {};
     } catch {
       return { error: "Connection error. Please try again." };
@@ -131,9 +150,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       fetch(`${API_BASE}/users/logout`, {
         method: "POST",
         headers: { "x-auth-token": token },
-      }).catch(() => {});
+      }).catch(() => { });
     }
-    await AsyncStorage.removeItem(TOKEN_KEY).catch(() => {});
+    await AsyncStorage.removeItem(TOKEN_KEY).catch(() => { });
     setState({ user: null, token: null, loading: false });
   }, [state.token]);
 
@@ -162,11 +181,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         headers: { "Content-Type": "application/json", "x-auth-token": state.token },
         body: JSON.stringify(scanData),
       });
-    } catch {}
+    } catch { }
   }, [state.token]);
 
+  const resetPassword = useCallback(async (email: string, newPassword: string, code: string) => {
+    try {
+      const res = await fetch(`${API_BASE}/users/reset-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim().toLowerCase(), newPassword, code }),
+      });
+      const data = await res.json();
+      if (!res.ok) return { error: data.error || "Reset password failed." };
+      return {};
+    } catch {
+      return { error: "Connection error." };
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ ...state, login, register, logout, updateProfile, saveHealthScan }}>
+    <AuthContext.Provider value={{ ...state, login, register, logout, forgot, updateProfile, resetPassword, saveHealthScan }}>
       {children}
     </AuthContext.Provider>
   );
@@ -177,3 +211,4 @@ export function useAuth() {
   if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
   return ctx;
 }
+

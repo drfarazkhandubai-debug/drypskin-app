@@ -1,5 +1,5 @@
-const BASE = process.env.EXPO_PUBLIC_DOMAIN
-  ? `https://${process.env.EXPO_PUBLIC_DOMAIN}`
+const BASE = process.env.EXPO_PUBLIC_API_URL
+  ? `https://${process.env.EXPO_PUBLIC_API_URL}`
   : "";
 
 export async function apiGet<T>(path: string, headers?: Record<string, string>): Promise<T> {

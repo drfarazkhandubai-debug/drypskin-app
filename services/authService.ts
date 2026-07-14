@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 
-const APP_REDIRECT = process.env.EXPO_PUBLIC_DOMAIN
-  ? `https://${process.env.EXPO_PUBLIC_DOMAIN}/reset-password`
+const APP_REDIRECT = process.env.EXPO_PUBLIC_API_URL
+  ? `https://${process.env.EXPO_PUBLIC_API_URL}/reset-password`
   : "drypskin://reset-password";
 
 export const signUp = async (opts: {

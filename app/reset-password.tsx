@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   ActivityIndicator,
-  KeyboardAvoidingView,
   Platform,
   Pressable,
   ScrollView,
@@ -10,11 +9,12 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { Feather } from "@expo/vector-icons";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context"; 
 import { useColors } from "@/hooks/useColors";
-import { updatePassword } from "@/services/authService";
+import { useAuth } from "@/context/AuthContext";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 
 const GOLD = "#C4956A";
 
@@ -22,6 +22,10 @@ export default function ResetPasswordScreen() {
   const colors = useColors();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const auth = useAuth();
+
+  const { email, token: code } = useLocalSearchParams<{ email: string, token: string }>(); 
+    
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -30,6 +34,7 @@ export default function ResetPasswordScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+
 
   const handleUpdate = async () => {
     setError("");
@@ -44,7 +49,7 @@ export default function ResetPasswordScreen() {
 
     setLoading(true);
     try {
-      await updatePassword(password);
+      await auth.resetPassword(email, password, code);
       setSuccess(true);
     } catch (err: any) {
       setError(err?.message ?? "Failed to update password. Please try again.");
@@ -53,16 +58,13 @@ export default function ResetPasswordScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
+    <KeyboardAwareScrollView
       style={{ flex: 1, backgroundColor: colors.background }}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      contentContainerStyle={{ flexGrow: 1, justifyContent: "center", padding: 24, paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 }}
+      keyboardShouldPersistTaps="handled"
+      showsVerticalScrollIndicator={false}
     >
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center", padding: 24, paddingTop: insets.top + 24, paddingBottom: insets.bottom + 24 }}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Logo / header */}
+      {/* Logo / header */}
         <View style={{ alignItems: "center", marginBottom: 36 }}>
           <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: GOLD + "18", alignItems: "center", justifyContent: "center", marginBottom: 16 }}>
             <Feather name="lock" size={24} color={GOLD} />
@@ -155,8 +157,7 @@ export default function ResetPasswordScreen() {
             </Pressable>
           </View>
         )}
-      </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 }
 
@@ -200,3 +201,4 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
 });
+

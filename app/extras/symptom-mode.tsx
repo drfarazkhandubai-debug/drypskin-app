@@ -19,16 +19,16 @@ import { setSymptomPrefill, type PrefillSymptom } from "@/services/symptomPrefil
 
 const GOLD = "#C4956A";
 const DARK = "#1a1a1a";
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 
 const SYMPTOM_COLORS: Record<string, { color: string; icon: string }> = {
-  fatigue:         { color: "#4A7AAA", icon: "battery"    },
-  "low-energy":    { color: "#8A5A7A", icon: "zap"        },
-  "brain-fog":     { color: "#4A5B8A", icon: "cloud"      },
-  "skin-dullness": { color: "#C4956A", icon: "sun"        },
-  "stress-anxiety":{ color: "#AA4A4A", icon: "activity"   },
-  "poor-sleep":    { color: "#5C7A6B", icon: "moon"       },
-  dehydration:     { color: "#4A8A8A", icon: "droplet"    },
+  fatigue: { color: "#4A7AAA", icon: "battery" },
+  "low-energy": { color: "#8A5A7A", icon: "zap" },
+  "brain-fog": { color: "#4A5B8A", icon: "cloud" },
+  "skin-dullness": { color: "#C4956A", icon: "sun" },
+  "stress-anxiety": { color: "#AA4A4A", icon: "activity" },
+  "poor-sleep": { color: "#5C7A6B", icon: "moon" },
+  dehydration: { color: "#4A8A8A", icon: "droplet" },
 };
 
 const DEFAULT_COLOR = { color: GOLD, icon: "thermometer" };
@@ -444,3 +444,4 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
 });
+

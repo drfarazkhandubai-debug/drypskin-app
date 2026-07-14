@@ -18,7 +18,7 @@ import { useAuth } from "@/context/AuthContext";
 import { GoldButton } from "@/components/GoldButton";
 
 
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 const GOLD = "#C4956A";
 const GREEN = "#22C55E";
 

@@ -10,7 +10,7 @@ import { useColors } from "@/hooks/useColors";
 import { useAuth } from "@/context/AuthContext";
 import { subscribeToAppointments, unsubscribe } from "@/services/realtimeService";
 
-const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
 const ACCENT = "#8B9B8A";
 
 const SERVICES_LIST = [
