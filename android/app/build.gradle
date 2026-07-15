@@ -92,19 +92,12 @@ android {
         applicationId 'com.drypskin.app'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 11
+        versionCode 1
         versionName "1.0.0"
 
         buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
     }
     signingConfigs {
-          release {
-        storeFile file("release.jks") // or the correct path to your .jks
-        storePassword "d8dcad4395e63376fe586035c60f8612"
-        keyAlias "25b24f221175f344ff7b9c5eb3afe84f"
-        keyPassword "4a0076d482e3f83e5daf25142239c5ca"
-    }
-
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
@@ -119,7 +112,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
             def enableShrinkResources = findProperty('android.enableShrinkResourcesInReleaseBuilds') ?: 'false'
             shrinkResources enableShrinkResources.toBoolean()
             minifyEnabled enableMinifyInReleaseBuilds

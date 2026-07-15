@@ -16,7 +16,7 @@ import { Feather } from "@expo/vector-icons";
 import { useColors } from "@/hooks/useColors";
 import { useI18n } from "@/context/I18nContext";
 
-const API_BASE = `https://${process.env.EXPO_PUBLIC_API_URL}/api`;
+const API_BASE = `https://${process.env.EXPO_PUBLIC_DOMAIN}/api`;
 const GOLD = "#C4956A";
 
 interface Category {

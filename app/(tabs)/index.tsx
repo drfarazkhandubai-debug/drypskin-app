@@ -66,32 +66,14 @@ export default function HomeScreen() {
             <Text style={[styles.brandName, { color: colors.foreground, fontFamily: "Cormorant_700Bold" }]}>
               drypSKin
             </Text>
-            {/* <Text style={[styles.brandTagline, { color: colors.warmGray, fontFamily: "Lato_300Light" }]}>
-              Dubai’s first Members Wellness Club
-            </Text> */}
-            {/* {personalMsg && (auth.user || personalMsg.greeting !== "Welcome back, there.") ? ( */}
-            {
-              auth?.user ? (
-                <>
-                  <Text style={[styles.brandTagline, { color: GOLD, fontFamily: "Lato_400Regular", fontSize: 13, marginTop: 2 }]}>
-                    Welcome back {auth?.user?.name},
-                  </Text>
-                  <Text style={[{ color: GOLD, fontFamily: "Lato_400Regular", fontSize: 13 }]}>
-                    How can we help you?
-                  </Text>
-                </>
-              ) : (
-                <>
-                  <Text style={[styles.brandTagline, { color: colors.warmGray, fontFamily: "Lato_300Light" }]}>
-                    Welcome to our platform!
-                  </Text>
-                  <Text style={[styles.brandTagline, { color: colors.warmGray, fontFamily: "Lato_300Light" }]}>
-                    How can we help you?
-                  </Text>
-                </>
-              )
-            }
-            {/* ) : null} */}
+            <Text style={[styles.brandTagline, { color: colors.warmGray, fontFamily: "Lato_300Light" }]}>
+              Private Wellness Club
+            </Text>
+            {personalMsg && (auth.user || personalMsg.greeting !== "Welcome back, there.") ? (
+              <Text style={[styles.brandTagline, { color: GOLD, fontFamily: "Lato_400Regular", fontSize: 13, marginTop: 2 }]}>
+                {personalMsg.greeting}
+              </Text>
+            ) : null}
           </View>
           <Pressable
             onPress={() => Linking.openURL("https://wa.me/971586078532?text=Hello%20Drypskin!")}
@@ -375,7 +357,7 @@ export default function HomeScreen() {
           </Text>
         </View>
       </View>
-    </ScrollView >
+    </ScrollView>
   );
 }
 
@@ -444,4 +426,3 @@ const styles = StyleSheet.create({
   offersGoldStripe: { height: 3, backgroundColor: GOLD, marginTop: 0 },
   locationText: { fontSize: 13, flex: 1 },
 });
-

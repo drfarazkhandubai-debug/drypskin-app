@@ -16,15 +16,17 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Animated,
   Image,
-  Platform, 
+  Platform,
   StyleSheet,
   View,
   StatusBar
 } from "react-native";
+import * as SQLite from 'expo-sqlite';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 // import { StatusBar } from 'expo-status-bar'
+import * as sqlite from 'expo-sqlite'
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
@@ -45,7 +47,6 @@ const nativeDriver = Platform.OS !== "web";
 function LogoSplash({ onDone }: { onDone: () => void }) {
   const opacity = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(0.88)).current;
-
 
   useEffect(() => {
     Animated.sequence([
@@ -130,6 +131,14 @@ function AuthEventRouter() {
 }
 
 function RootLayoutNav() {
+
+  const db = sqlite.openDatabaseSync('app.db');
+
+  db.execSync('CREATE TABLE IF NOT EXISTS products (id INTEGER, name TEXT, count INTEGER);')
+  db.runSync('INSERT INTO products (id, name, count) VALUES (?, ?, ?)', [1, 'name', 2]);
+
+  console.log(db.getAllSync('SELECT * FROM products'));
+
   return (
     <>
       {/* <StatusBar style="dark" animated backgroundColor="#fff" /> */}
@@ -146,23 +155,23 @@ function RootLayoutNav() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
           name="service/[id]"
-          // options={{
-          //   headerShown: true,
-          //   headerTransparent: true,
-          //   headerTitle: "",
-          //   headerTintColor: "#8B9B8A",
-          //   headerBackTitle: "Back",
-          // }}
+        // options={{
+        //   headerShown: true,
+        //   headerTransparent: true,
+        //   headerTitle: "",
+        //   headerTintColor: "#8B9B8A",
+        //   headerBackTitle: "Back",
+        // }}
         />
         <Stack.Screen
           name="offers"
-          // options={{
-          //   headerShown: true,
-          //   headerTitle: "Special Offers",
-          //   headerTintColor: "#8B9B8A",
-          //   headerBackTitle: "Back",
-          //   headerStyle: { backgroundColor: "#F5F0EB" },
-          // }}
+        // options={{
+        //   headerShown: true,
+        //   headerTitle: "Special Offers",
+        //   headerTintColor: "#8B9B8A",
+        //   headerBackTitle: "Back",
+        //   headerStyle: { backgroundColor: "#F5F0EB" },
+        // }}
         />
         <Stack.Screen
           name="programs"
@@ -242,29 +251,29 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-        <ErrorBoundary>
-          <QueryClientProvider client={queryClient}>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-              <KeyboardProvider>
-                <I18nProvider>
-                  <AuthProvider>
-                    <View style={{ flex: 1 }}>
-                      <RootLayoutNav />
-                      {showSplash && (
-                        <LogoSplash
-                          onDone={() => {
-                            setSplashDone(true);
-                            setShowSplash(false);
-                          }}
-                        />
-                      )}
-                    </View>
-                  </AuthProvider>
-                </I18nProvider>
-              </KeyboardProvider>
-            </GestureHandlerRootView>
-          </QueryClientProvider>
-        </ErrorBoundary>
+      <ErrorBoundary>
+        <QueryClientProvider client={queryClient}>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <KeyboardProvider>
+              <I18nProvider>
+                <AuthProvider>
+                  <View style={{ flex: 1 }}>
+                    <RootLayoutNav />
+                    {showSplash && (
+                      <LogoSplash
+                        onDone={() => {
+                          setSplashDone(true);
+                          setShowSplash(false);
+                        }}
+                      />
+                    )}
+                  </View>
+                </AuthProvider>
+              </I18nProvider>
+            </KeyboardProvider>
+          </GestureHandlerRootView>
+        </QueryClientProvider>
+      </ErrorBoundary>
     </SafeAreaProvider>
   );
 }
