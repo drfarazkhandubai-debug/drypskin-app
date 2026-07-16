@@ -119,7 +119,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       const data = await res.json();
 
-      console.log({ data });
 
       return {};
     } catch {

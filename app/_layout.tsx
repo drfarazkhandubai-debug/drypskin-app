@@ -21,16 +21,46 @@ import {
   View,
   StatusBar
 } from "react-native";
-import * as SQLite from 'expo-sqlite';
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-// import { StatusBar } from 'expo-status-bar'
-import * as sqlite from 'expo-sqlite'
 
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import { I18nProvider } from "@/context/I18nContext";
+import * as Sentry from '@sentry/react-native';
+
+
+const navigationIntegration = Sentry.reactNavigationIntegration({
+  enableTimeToInitialDisplay: true,
+});
+
+Sentry.init({
+  dsn: 'https://8d53b93b1461bddbeb9024954a4c1f89@o4511727044132864.ingest.us.sentry.io/4511727191982080',
+
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+  sendDefaultPii: true,
+
+  // Enable Logs
+  enableLogs: true,
+  enableNativeFramesTracking: true,
+
+  // Configure Session Replay
+  replaysSessionSampleRate: 0.1,
+  tracesSampleRate: 1.0,
+  replaysOnErrorSampleRate: 1.0,
+  integrations: [
+    navigationIntegration,
+    Sentry.mobileReplayIntegration(),
+    Sentry.feedbackIntegration(),
+    Sentry.reactNativeTracingIntegration(),
+  ],
+  // debug: true
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // spotlight: __DEV__,
+});
 
 
 if (__DEV__) {
@@ -132,13 +162,6 @@ function AuthEventRouter() {
 
 function RootLayoutNav() {
 
-  const db = sqlite.openDatabaseSync('app.db');
-
-  db.execSync('CREATE TABLE IF NOT EXISTS products (id INTEGER, name TEXT, count INTEGER);')
-  db.runSync('INSERT INTO products (id, name, count) VALUES (?, ?, ?)', [1, 'name', 2]);
-
-  console.log(db.getAllSync('SELECT * FROM products'));
-
   return (
     <>
       {/* <StatusBar style="dark" animated backgroundColor="#fff" /> */}
@@ -175,16 +198,16 @@ function RootLayoutNav() {
         />
         <Stack.Screen
           name="programs"
-          options={{
-            headerShown: true,
-            headerTitle: "Wellness Programs",
-            headerTintColor: "#8B9B8A",
-            headerBackTitle: "Back",
-            headerStyle: { backgroundColor: "#F5F0EB" },
-          }}
+        // options={{
+        //   headerShown: true,
+        //   headerTitle: "Wellness Programs",
+        //   headerTintColor: "#8B9B8A",
+        //   headerBackTitle: "Back",
+        //   headerStyle: { backgroundColor: "#F5F0EB" },
+        // }}
         />
 
-        <Stack.Screen name="program/[id]" options={{ headerShown: false }} />
+        < Stack.Screen name="program/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="peptide/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="protocol/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="facials" options={{ headerShown: false }} />
@@ -228,7 +251,7 @@ function RootLayoutNav() {
   );
 }
 
-export default function RootLayout() {
+export default Sentry.wrap(function RootLayout() {
   const [fontsLoaded, fontError] = useFonts({
     Cormorant_400Regular,
     Cormorant_600SemiBold,
@@ -276,7 +299,7 @@ export default function RootLayout() {
       </ErrorBoundary>
     </SafeAreaProvider>
   );
-}
+});
 
 const SPLASH_SIZE = Platform.OS === "web" ? 280 : 260;
 

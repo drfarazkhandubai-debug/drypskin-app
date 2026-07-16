@@ -76,7 +76,10 @@ export default function HomeScreen() {
             ) : null}
           </View>
           <Pressable
-            onPress={() => Linking.openURL("https://wa.me/971586078532?text=Hello%20Drypskin!")}
+            // onPress={() => Linking.openURL("https://wa.me/971586078532?text=Hello%20Drypskin!")}
+            onPress={() => {
+              throw new Error('throw an error')
+            }}
             style={[styles.whatsappFab, { backgroundColor: colors.primary }]}
           >
             <Feather name="message-circle" size={20} color="#fff" />

@@ -45,7 +45,14 @@
       ],
       "expo-font",
       "expo-web-browser",
-      "expo-sqlite"
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "react-native",
+          "organization": "nazimudheen"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

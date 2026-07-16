@@ -98,7 +98,7 @@ export default function ServicesScreen() {
       const svcData = await svcRes.json();
       setCategories(catsData.categories ?? []);
       setServices(svcData.services ?? []);
-    } catch {}
+    } catch { }
     setLoading(false);
   }, []);
 
@@ -121,10 +121,10 @@ export default function ServicesScreen() {
   const subcats = activeCategory === "all"
     ? []
     : Array.from(new Set(
-        services
-          .filter((s) => s.category_id === activeCategory && s.subcategory)
-          .map((s) => s.subcategory)
-      ));
+      services
+        .filter((s) => s.category_id === activeCategory && s.subcategory)
+        .map((s) => s.subcategory)
+    ));
 
   const handleCategoryChange = (catId: string) => {
     if (catId === "iv-therapy") {
